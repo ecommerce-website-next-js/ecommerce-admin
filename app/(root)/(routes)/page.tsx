@@ -13,7 +13,7 @@ export default function SetupPage() {
         if (!isOpen) {
             onOpen();
         }
-    }, [isOpen, onOpen]);
+    }, [onOpen]);
 
     return (
         <div className="p-4">

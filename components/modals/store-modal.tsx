@@ -2,18 +2,19 @@
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Modal } from "@/components/ui/modal";
-
 import { useStoreModal } from "@/hooks/use-store-modal";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { storeModalSchema, StoreModalProps } from "@/types/store";
-import { Label } from "../ui/label";
+import { Label } from "@/components/ui/label";
 import createStoreAction from "@/actions/stores/create";
-import { toast } from "sonner";
 
 export const StoreModal = () => {
+    const router = useRouter();
     const storeModal = useStoreModal();
 
     const {
@@ -25,13 +26,19 @@ export const StoreModal = () => {
     });
 
     const onSubmit = async (values: StoreModalProps) => {
-        const result = await createStoreAction(values);
+        try {
+            const result = await createStoreAction(values);
 
-        if (!result.success) {
-            return toast.error(result.message);
+            if (!result.success) {
+                return toast.error(result.message);
+            }
+
+            toast.success(result.message);
+            storeModal.onClose();
+            router.push(`/${result.data}`);
+        } catch (error) {
+            return toast.error("Неочаквана грешка!");
         }
-
-        return toast.success(result.message);
     };
 
     return (

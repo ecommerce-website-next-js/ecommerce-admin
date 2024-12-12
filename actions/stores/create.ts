@@ -11,10 +11,7 @@ export default async function createStoreAction(
     const user = await isAuthenticated();
 
     if (!user) {
-        return {
-            success: false,
-            message: "Нямате достъп до тази функционалност.",
-        };
+        return { success: false, message: "Нямате достъп до тази функционалност." };
     }
 
     const store = await prisma.store.findFirst({
@@ -29,7 +26,5 @@ export default async function createStoreAction(
         data: { name: data.name, userId: user.id },
     });
 
-    console.log(createdStore);
-
-    return { success: true, message: "Магазинът беше създаден успешно." };
+    return { success: true, message: "Магазинът беше създаден успешно.", data: createdStore.id };
 }
