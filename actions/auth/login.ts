@@ -25,7 +25,7 @@ const expiresInMsDays = expiresInDays * 60 * 1000 * 24;
 
 export default async function loginAction(data: CredentialLoginProps): Promise<ActionResult> {
     
-    const user = await prisma.users.findUnique({
+    const user = await prisma.user.findUnique({
         where: { email: data.email },
     });
 

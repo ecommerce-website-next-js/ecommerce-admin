@@ -90,7 +90,7 @@ export function DesktopNavbar({
 
 export function MobileNavbar() {
     const pathname = usePathname();
-    const [isOpen, setIsOpen] = useState(true);
+    const [isOpen, setIsOpen] = useState(false);
 
     return (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>

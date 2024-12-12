@@ -14,8 +14,8 @@ const expiresInDays =
     Number(process.env.AUTH_COOKIE_IN_DAYS) * 60 * 1000 * 24 * 30;
 
 export default async function loginAction(data: CredentialRegisterProps): Promise<ActionResult> {
-    const totalUsersCount = await prisma.users.count();
-    const user = await prisma.users.findUnique({
+    const totalUsersCount = await prisma.user.count();
+    const user = await prisma.user.findUnique({
         where: { email: data.email },
     });
 
@@ -26,7 +26,7 @@ export default async function loginAction(data: CredentialRegisterProps): Promis
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(data.password, salt);
 
-    const createdUser = await prisma.users.create({
+    const createdUser = await prisma.user.create({
         data: {
             email: data.email,
             hashedPassword,
