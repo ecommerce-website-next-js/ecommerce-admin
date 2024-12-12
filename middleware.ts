@@ -14,17 +14,13 @@ function decodeJwt(token: string) {
 }
 
 export function middleware(request: NextRequest) {
-    const protectedRoutes = ["/dashboard"]; // Защитени маршрути
-    const openRoutes = ["/auth/login", "/auth/register"]; // Отворени маршрути
+    const publicRoutes = ["/auth/login", "/auth/register"];
     const { pathname } = request.nextUrl;
 
     const authToken = request.cookies.get("auth");
 
-    console.log(authToken);
-    
-
-    // Проверка за отворени маршрути за логнати потребители
-    if (openRoutes.some((route) => pathname.startsWith(route))) {
+    // Публични маршрути: достъпни само за нелогнати потребители
+    if (publicRoutes.some((route) => pathname.startsWith(route))) {
         if (authToken && authToken.value) {
             try {
                 const decodedData = decodeJwt(authToken.value);
@@ -39,30 +35,26 @@ export function middleware(request: NextRequest) {
         return NextResponse.next();
     }
 
-    // Проверка за защитени маршрути
-    if (protectedRoutes.some((route) => pathname.startsWith(route))) {
-        if (authToken && authToken.value) {
-            try {
-                const decodedData = decodeJwt(authToken.value);
+    // Всички останали маршрути: достъпни само за логнати администратори
+    if (authToken && authToken.value) {
+        try {
+            const decodedData = decodeJwt(authToken.value);
 
-                if (!decodedData || decodedData?.role !== "ADMIN") {
-                    return NextResponse.redirect(new URL("/", request.url));
-                }
-            } catch (error) {
-                return NextResponse.redirect(new URL("/auth/login", request.url));
+            if (decodedData?.role === "ADMIN") {
+                return NextResponse.next();
+            } else {
+                return NextResponse.redirect(new URL("/", request.url));
             }
-        } else {
+        } catch (error) {
             return NextResponse.redirect(new URL("/auth/login", request.url));
         }
+    } else {
+        return NextResponse.redirect(new URL("/auth/login", request.url));
     }
-
-    return NextResponse.next();
 }
 
 export const config = {
     matcher: [
-        "/dashboard/:path*",
-        "/auth/login",
-        "/auth/register",
+        "/((?!auth/login|auth/register|_next|static).*)"
     ],
 };
