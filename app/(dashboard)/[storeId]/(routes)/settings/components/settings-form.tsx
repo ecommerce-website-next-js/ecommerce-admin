@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
+import { ApiAlert } from "@/components/ui/api.alert";
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
     const [open, setOpen] = useState(false);
@@ -58,12 +59,14 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
             router.refresh();
             toast.success("Магазинът е изтрит.");
         } catch (error) {
-            toast.error("Уверете се, че първо сте премахнали всички продукти и категории.");
+            toast.error(
+                "Уверете се, че първо сте премахнали всички продукти и категории."
+            );
         } finally {
             setLoading(false);
             setOpen(false);
         }
-    }
+    };
 
     return (
         <>
@@ -121,6 +124,12 @@ export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
                     </Button>
                 </form>
             </Form>
+            <Separator />
+            <ApiAlert
+                title="NEXT_PUBLIC_API_URL"
+                description={`${origin}/api/${params.storeId}`}
+                variant="public"
+            />
         </>
     );
 };
