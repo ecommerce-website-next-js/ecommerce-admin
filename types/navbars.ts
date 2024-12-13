@@ -1,4 +1,5 @@
 import { AnchorHTMLAttributes } from "react";
+import { StoreModalProps } from "./store";
 
 export interface CustomNavbarButtonProps
     extends AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -8,4 +9,12 @@ export interface CustomNavbarButtonProps
     listItemClasses?: string;
     textClasses?: string;
     linkClasses?: string;
+}
+
+export interface StoreSwitcherProps {
+    stores: StoreModalProps[];
+}
+
+export interface MobileNavbarProps {
+    navbarButtons: CustomNavbarButtonProps[];
 }
