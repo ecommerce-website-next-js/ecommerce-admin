@@ -4,11 +4,13 @@ import { MdOutlineCategory } from "react-icons/md";
 import { IoMdGift } from "react-icons/io";
 import { CiBoxList } from "react-icons/ci";
 
+import { Store } from "@prisma/client";
+import prisma from "@/lib/db";
 import { CustomNavbarButtonProps } from "@/types/navbars";
 import { DesktopNavbar } from "@/components/navigation/top-navbar/desktop-navbar";
 import { MobileNavbar } from "@/components/navigation/top-navbar/mobile-navbar";
-import { StoreSwitcher } from "./store-switcher";
-import { StoreModalProps } from "@/types/store";
+import { StoreSwitcher } from "@/components/navigation/top-navbar/store-switcher";
+import { isAuthenticated } from "@/utils/is-authenticated";
 
 const navbarButtons: CustomNavbarButtonProps[] = [
     {
@@ -33,8 +35,13 @@ const navbarButtons: CustomNavbarButtonProps[] = [
     },
 ];
 
-export default function TopNavbar() {
-    const stores: StoreModalProps[] = [];
+export default async function TopNavbar() {
+    let stores: Store[] = [];
+    const user = await isAuthenticated();
+
+    if (user) {
+        stores = await prisma.store.findMany({ where: { userId: user.id } });
+    }
 
     return (
         <nav className="border-b border-gray-100 dark:bg-stone-900">
@@ -43,7 +50,7 @@ export default function TopNavbar() {
                     <Link href={"/"} className="text-xl font-bold">
                         Админ
                     </Link>
-                    <StoreSwitcher stores={stores} />
+                    <StoreSwitcher items={stores} />
                 </div>
 
                 <div className="hidden md:flex items-center justify-between gap-2">

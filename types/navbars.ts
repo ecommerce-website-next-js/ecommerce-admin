@@ -1,5 +1,5 @@
+import { Store } from "@prisma/client";
 import { AnchorHTMLAttributes } from "react";
-import { StoreModalProps } from "./store";
 
 export interface CustomNavbarButtonProps
     extends AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -12,7 +12,8 @@ export interface CustomNavbarButtonProps
 }
 
 export interface StoreSwitcherProps {
-    stores: StoreModalProps[];
+    className?: string;
+    items: Store[];
 }
 
 export interface MobileNavbarProps {
