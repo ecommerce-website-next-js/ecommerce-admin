@@ -4,35 +4,26 @@ import { Trash } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { toast } from "sonner";
+import { useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { Heading } from "@/components/ui/heading";
 import { Separator } from "@/components/ui/separator";
-import {
-    SettingsFormProps,
-    settingsFormSchema,
-    SettingsFormValues,
-} from "@/types/settings";
-import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { useState } from "react";
+import { SettingsFormProps, settingsFormSchema, SettingsFormValues } from "@/types/settings";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
-import { useParams, useRouter } from "next/navigation";
 import { AlertModal } from "@/components/modals/alert-modal";
-import { ApiAlert } from "@/components/ui/api.alert";
+import { ApiAlert } from "@/components/ui/api-alert";
+import { useOrigin } from "@/hooks/use-origin";
 
 export const SettingsForm: React.FC<SettingsFormProps> = ({ initialData }) => {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const params = useParams();
     const router = useRouter();
+    const origin = useOrigin();
 
     const form = useForm<SettingsFormValues>({
         resolver: zodResolver(settingsFormSchema),
