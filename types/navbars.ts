@@ -19,3 +19,7 @@ export interface StoreSwitcherProps {
 export interface MobileNavbarProps {
     navbarButtons: CustomNavbarButtonProps[];
 }
+
+export type TopNavbarProps = {
+    storeId: number;
+}

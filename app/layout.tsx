@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { Toaster } from "@/components/ui/sonner"
-import TopNavbar from "@/components/navigation/top-navbar";
+import Navbar from "@/components/navigation/navbar";
 import { ModalProvider } from "@/providers/modal-provider";
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default function RootLayout({
     return (
         <html lang="bg">
             <body>
-                <TopNavbar />
+                <Navbar />
                 <div className="container mx-auto max-md:px-5">
                     <ModalProvider />
                     {children}

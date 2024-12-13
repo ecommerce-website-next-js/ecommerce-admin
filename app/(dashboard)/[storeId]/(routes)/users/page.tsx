@@ -1,16 +1,20 @@
 import PageHeader from "@/components/global/page-header";
 import { BreadcrumbProps } from "@/types/global";
 
-export default function UsersPage() {
-
+export default async function UsersPage({
+    params,
+}: {
+    params: { storeId: number };
+}) {
+    const storeId = (await params).storeId;
     const breadcrumbs: BreadcrumbProps[] = [
         {
             href: "/",
-            name: "Табло"
+            name: "Табло",
         },
         {
-            href: "/users",
-            name: "Потребители"
+            href: `/${storeId}/users`,
+            name: "Потребители",
         },
     ];
 

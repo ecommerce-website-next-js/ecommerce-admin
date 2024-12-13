@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import {
     Check,
     ChevronsUpDown,
@@ -32,6 +32,7 @@ import { cn } from "@/lib/utils";
 export function StoreSwitcher({ className, items }: StoreSwitcherProps) {
     const storeModal = useStoreModal();
     const params = useParams();
+    const pathname = usePathname();
     const router = useRouter();
 
     const formattedItems = items.map((item) => ({
@@ -47,7 +48,8 @@ export function StoreSwitcher({ className, items }: StoreSwitcherProps) {
 
     const onStoreSelect = (store: { value: string; label: string }) => {
         setOpen(false);
-        router.push(`/${store.value}`);
+        const newPath = pathname.split('/').slice(2).join('/');
+        router.push(`/${store.value}/${newPath}`);
     };
 
     return (

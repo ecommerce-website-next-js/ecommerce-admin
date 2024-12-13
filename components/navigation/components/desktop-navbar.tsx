@@ -21,7 +21,7 @@ export function DesktopNavbar({
                     text={button.text}
                     href={button.href}
                     icon={button.icon}
-                    linkClasses={`py-2 px-3 rounded hover:text-gray-100 hover:bg-blue-500 ${pathname === button.href && "text-gray-100 bg-blue-600 shadow"}`}
+                    linkClasses={`py-2 px-1 rounded hover:text-blue-500 ${pathname === button.href && "text-blue-500"}`}
                 />
             ))}
         </>
