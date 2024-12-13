@@ -7,6 +7,7 @@ export async function PATCH(
     { params }: { params: { storeId: string } }
 ) {
     try {
+        const { storeId } = await params;
         const user = await isAuthenticated();
         const body = await request.json();
 
@@ -20,12 +21,12 @@ export async function PATCH(
             return new NextResponse("Name is required", { status: 400 });
         }
 
-        if (!params.storeId) {
+        if (!storeId) {
             return new NextResponse("Store id is required", { status: 400 });
         }
 
         const store = await prisma.store.updateMany({
-            where: { id: parseInt(params.storeId), userId: user.id },
+            where: { id: parseInt(storeId), userId: user.id },
             data: { name }
         });
 
@@ -41,18 +42,19 @@ export async function DELETE(
     { params }: { params: { storeId: string } }
 ) {
     try {
+        const { storeId } = await params;
         const user = await isAuthenticated();
 
         if (!user) {
             return new NextResponse("Unauthenticated", { status: 401 });
         }
 
-        if (!params.storeId) {
+        if (!storeId) {
             return new NextResponse("Store id is required", { status: 400 });
         }
 
         const store = await prisma.store.deleteMany({
-            where: { id: parseInt(params.storeId), userId: user.id }
+            where: { id: parseInt(storeId), userId: user.id }
         });
 
         return NextResponse.json(store);

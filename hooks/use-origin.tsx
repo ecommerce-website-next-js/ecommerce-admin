@@ -1,16 +1,13 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 
 export const useOrigin = () => {
-    const [isMounded, setIsMounded] = useState(false);
-    const origin = typeof window !== "undefined" && window.location.origin ? window.location.origin : "";
+    const [origin, setOrigin] = useState("");
 
     useEffect(() => {
-        setIsMounded(true);
+        if (typeof window !== "undefined" && window.location.origin) {
+            setOrigin(window.location.origin);
+        }
     }, []);
 
-    if (!isMounded) {
-        return "";
-    }
-
     return origin;
-}
+};

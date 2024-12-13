@@ -25,8 +25,20 @@ const variantMap: Record<ApiAlertProps["variant"], BadgeProps["variant"]> = {
 export const ApiAlert: React.FC<ApiAlertProps> = ({ title, description, variant }) => {
 
     const onCopy = (description: string) => {
-        navigator.clipboard.writeText(description);
-        toast.success("Копирано!");
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(description)
+                .then(() => {
+                    console.log("Text copied successfully!");
+                    toast.success("Копирано!");
+                })
+                .catch((error) => {
+                    console.error("Failed to copy text: ", error);
+                    toast.error("Неуспешно копиране!");
+                });
+        } else {
+            console.warn("Clipboard API is not available");
+            toast.success("Копирането не се поддържа на това устройство.");
+        }
     }
 
     return (
