@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 
+import { Toaster } from "@/components/ui/sonner";
+
 import "./globals.css";
 
-import { Toaster } from "@/components/ui/sonner"
 import Navbar from "@/components/navigation/navbar";
 import { ModalProvider } from "@/providers/modal-provider";
+import { EdgeStoreProvider } from "@/lib/edgestore";
 
 export const metadata: Metadata = {
     title: "Административно Табло",
@@ -22,7 +24,7 @@ export default function RootLayout({
                 <Navbar />
                 <div className="container mx-auto max-md:px-5">
                     <ModalProvider />
-                    {children}
+                    <EdgeStoreProvider>{children}</EdgeStoreProvider>
                 </div>
                 <Toaster />
             </body>

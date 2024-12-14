@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { BaggageClaim, LucideLayoutDashboard, Settings, ShoppingBasket, StretchHorizontal, User, Users } from "lucide-react";
+import { BaggageClaim, LucideLayoutDashboard, Presentation, Settings, ShoppingBasket, StretchHorizontal, User, Users } from "lucide-react";
 
 import { CustomNavbarButtonProps } from "@/types/navbars";
 import { DesktopNavbar } from "@/components/navigation/components/desktop-navbar";
@@ -22,6 +22,11 @@ export default function DisplayItems() {
             text: "Настройки",
             href: `/${storeId}/settings`,
             icon: <Settings size={24} />,
+        },
+        {
+            text: "Билбордове",
+            href: `/${storeId}/billboards`,
+            icon: <Presentation size={24} />,
         },
         {
             text: "Категории",
